@@ -1,0 +1,3 @@
+Viktige punkter til Mappevurdering:
+- composition/aggregation
+- kommenter, begrunn, tester
