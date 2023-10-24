@@ -1,3 +1,6 @@
 Viktige punkter til Mappevurdering:
 - composition/aggregation
 - kommenter, begrunn, tester
+- abstract, override command class
+- dry
+- lære å skrive raskere
