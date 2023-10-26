@@ -7,8 +7,7 @@ import java.time.LocalTime;
  */
 public class TrainDispatchApp {
   public static void main(String[] args) {
-    TrainDispatch a = new TrainDispatch(LocalTime.of(15, 34), LocalTime.of(0, 5),
-            "Bergen", "L4", 343, 4);
+
   }
 
 

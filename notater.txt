@@ -1,5 +1,6 @@
 Viktige punkter til Mappevurdering:
 - composition/aggregation
+- coupling and cohesion
 - kommenter, begrunn, tester
 - abstract, override command class
 - dry
