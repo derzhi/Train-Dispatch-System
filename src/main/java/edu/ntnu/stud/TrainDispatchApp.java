@@ -7,7 +7,9 @@ import java.time.LocalTime;
  */
 public class TrainDispatchApp {
   public static void main(String[] args) {
-
+    userInterface ui = new userInterface();
+    ui.init();
+    ui.start();
   }
 
 

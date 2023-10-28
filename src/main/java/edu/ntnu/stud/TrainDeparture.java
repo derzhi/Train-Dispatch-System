@@ -64,6 +64,14 @@ import java.time.LocalTime;
  * </ul><br><br>
  */
 
+// TODO: Will need rewrite
+// TODO: More explanation on delay in immutable/mutable
+// TODO: datatypes/LocalTime - add information about time easily being
+// TODO: editable/good format? + used to + time?
+// TODO: datatypes/int - default?
+// TODO: object attributes/departuretime - write more about the specifications
+// TODO: of the assignment rather than real life scenario
+
 public class TrainDeparture {
   private LocalTime departureTime;
   private LocalTime delay;
@@ -97,7 +105,53 @@ public class TrainDeparture {
     this.line = line;
     this.trainNumber = trainNumber;
     this.track = track;
+
+    if (delay == null) {
+      this.delay = LocalTime.of(0, 0);
+    }
+
+    if (track < 1) {
+      this.track = -1;
+    }
+
+    //TODO: Better to do verification in constructor or before constructor?
+    //Could be better because of instant feedback to the user.
+    //Multiple validation layers make the system robust
+
   }
 
+  public LocalTime getDepartureTime() {
+    return departureTime;
+  }
+
+  public LocalTime getDelay() {
+    return delay;
+  }
+
+  public String getDestination() {
+    return destination;
+  }
+
+  public String getLine() {
+    return line;
+  }
+
+  public int getTrainNumber() {
+    return trainNumber;
+  }
+
+  public int getTrack() {
+    return track;
+  }
+
+  @Override
+  public String toString() {
+    return "TrainDeparture { " + "Departure Time: " + departureTime
+            + ", Delay: " + delay
+            + ", Destination: " + destination
+            + ", Line: " + line
+            + ", Train Number: " + trainNumber
+            + ", Track: " + track + " }";
+  }
 
 }
