@@ -31,12 +31,12 @@ import java.time.LocalTime;
  * The following attributes are considered immutable after a TrainDeparture object is created:
  * <ul>
  *     <li>{@code departureTime} - Set during object creation and reflects when a train is
- *     slated to depart.
- *     Given the specifics of the assignment and considerations like train delays, this value
- *     should remain constant.</li>
- *     <li>{@code destination}, {@code line}, and {@code trainNumber} - These values should remain
- *     constant for clarity
- *     and ease of reference.</li>
+ *     stated to depart. The train should depart either at the time set for departure or it gets
+ *     a delay. Therefore the departureTime should be immutable, and the delay will take care of
+ *     any delay information.</li>
+ *     <li>{@code destination} - - These values should remain
+ *     constant for clarity and ease of reference. There are also no functionality requirement to
+ *     edit this information for a train departure</li>
  * </ul><br><br>
  *
  * <p><b>Mutable attributes after object creation:</b></p>
@@ -64,20 +64,19 @@ import java.time.LocalTime;
  * </ul><br><br>
  */
 
-// TODO: Will need rewrite
+// TODO: datatypes/LocalTime - add information about time easily being editable?
 // TODO: More explanation on delay in immutable/mutable
-// TODO: datatypes/LocalTime - add information about time easily being
 // TODO: editable/good format? + used to + time?
 // TODO: datatypes/int - default?
 // TODO: object attributes/departuretime - write more about the specifications
 // TODO: of the assignment rather than real life scenario
 
 public class TrainDeparture {
-  private LocalTime departureTime;
+  private final LocalTime departureTime;
   private LocalTime delay;
-  private String destination;
-  private String line;
-  private int trainNumber;
+  private final String destination;
+  private final String line;
+  private final int trainNumber;
   private int track;
 
   /**

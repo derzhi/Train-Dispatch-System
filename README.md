@@ -3,6 +3,8 @@
 STUDENT NAME = Adrian Aleksander Buczek
 STUDENT ID = 111798
 
+
+
 ## Project description
 
 [//]: # (TODO: Write a short description of your project/product here.)
