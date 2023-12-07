@@ -1,57 +1,81 @@
 package edu.ntnu.stud;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Represents a train departure group.
+ * Represents a group of train departures.
+ * This class contains several method for manipulating a group
+ *
+ * @author Adrian Aleksander Buczek
+ * @since 0.2
  */
 public class TrainDepartureGroup {
-  private HashMap<Integer, TrainDeparture> trainDepartureGroup = new HashMap<>();
+  private HashMap<Integer, TrainDeparture> trainDepartureGroup;
 
-
-
+  /**
+   * Constructs a new TrainDepartureGroup object which contains a
+   * HashMap of TrainDeparture objects when initialized.
+   */
+  public TrainDepartureGroup() {
+    trainDepartureGroup = new HashMap<>();
+  }
 
   /**
    * Adds a train departure to the group.
    *
-   * @param trainDeparture the train departure to add
+   * @param trainDeparture the train departure to add.
    */
   public void addTrainDeparture(TrainDeparture trainDeparture) {
     trainDepartureGroup.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
 
-  public void removeTrainDeparture(int trainNumber) {
-    trainDepartureGroup.remove(trainNumber);
-  }
-
+  /**
+   * Gets a train departure by train number from train departure group.
+   *
+   * @param trainNumber the train number of a train you want to find.
+   * @return the train departure with the given train number.
+   */
   public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
     return trainDepartureGroup.get(trainNumber);
   }
 
-  public TrainDeparture getTrainDepartureByDestination(String destination) {
-    for (TrainDeparture trainDeparture : trainDepartureGroup.values()) {
-      if (trainDeparture.getDestination().equals(destination)) {
-        return trainDeparture;
-      }
-    }
-    return null;
+  /**
+   * Returns a list of TrainDepartures by a given destination in a
+   * TrainDepartureGroup if they exist.
+   *
+   * @param destination the destination you want to search by
+   * @return either a list of train departures or null.
+   */
+  public List<TrainDeparture> getTrainDepartureByDestination(String destination) {
+    return trainDepartureGroup.values()
+            .stream()
+            .filter(trainDeparture -> trainDeparture.getDestination().equals(destination))
+            .collect(Collectors.toList());
   }
 
-  public void removeTrainDeparturesByTimeBefore(int hour, int minute) {
+  /**
+   * Removes train departures from a train departure group that are before a certain time.
+   *
+   * @param time a LocalTime object selects the limit for what train departures to remove.
+   */
+  public void removeTrainDeparturesByTimeBefore(LocalTime time) {
     for (TrainDeparture trainDeparture : trainDepartureGroup.values()) {
-      if (trainDeparture.getDepartureTime().getHour() < hour) {
+      if (trainDeparture.getDepartureTime().isBefore(time)) {
         trainDepartureGroup.remove(trainDeparture.getTrainNumber());
-      } else if (trainDeparture.getDepartureTime().getHour() == hour) {
-        if (trainDeparture.getDepartureTime().getMinute() < minute) {
-          trainDepartureGroup.remove(trainDeparture.getTrainNumber());
-        }
       }
     }
   }
+  //TODO: What if there exists no train departures with the LocalTime provided?
 
+  /**
+   * Returns a list of train departures by the time ascending.
+   *
+   * @return a list of train departures by time ascending.
+   */
   public List<TrainDeparture> getTrainDepartureGroupByTimeAscending() {
     return trainDepartureGroup.values()
             .stream()
@@ -59,6 +83,17 @@ public class TrainDepartureGroup {
             .collect(Collectors.toList());
   }
 
-
+  /**
+   * Prints out a list of train departures.
+   *
+   * @return a String of train departures seperated by a newline character.
+   */
+  @Override
+  public String toString() {
+    return trainDepartureGroup.values()
+            .stream()
+            .map(TrainDeparture::toString)
+            .collect(Collectors.joining("\n"));
+  }
 
 }
