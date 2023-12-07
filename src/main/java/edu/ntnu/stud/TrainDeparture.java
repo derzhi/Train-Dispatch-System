@@ -99,7 +99,7 @@ public class TrainDeparture {
    * @throws IllegalArgumentException if the integer is negative
    */
   private void validatePositiveIntegerParameter(int parameter) throws IllegalArgumentException {
-    if (parameter < 0) {
+    if (parameter < 1) {
       throw new IllegalArgumentException("The integer for the parameter was negative, "
               + "please retry.");
     }
@@ -113,7 +113,7 @@ public class TrainDeparture {
    *                                  or equal to negative one.
    */
   private void validatePositiveIntegerOrNegativeOne(int parameter) throws IllegalArgumentException {
-    if (parameter > 0 || parameter == -1) {
+    if (parameter < 1 && parameter != -1) {
       throw new IllegalArgumentException("The integer for the parameter was not over 0 or -1, "
               + "please retry.");
     }
