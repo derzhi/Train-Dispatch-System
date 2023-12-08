@@ -214,6 +214,15 @@ public class TrainDeparture {
   }
 
   /**
+   * Returns the departure time plus the delay.
+   *
+   * @return a LocalTime object with departure time plus hours of delay and minutes of delay.
+   */
+  public LocalTime getDestinationTimePlusDelay() {
+    return departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
+  }
+
+  /**
    * Sets an positive integer value or -1 as the track attribute of an
    * existing TrainDeparture object.
    *
