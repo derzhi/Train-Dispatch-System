@@ -2,7 +2,6 @@ package edu.ntnu.stud;
 
 import java.time.LocalTime;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Class for the user interface.
@@ -12,6 +11,13 @@ public class UserInterface {
   private static LocalTime timeOfDay = LocalTime.of(0, 0);
   private static final Scanner scanner = new Scanner(System.in);
   private static final TrainDepartureGroup tdg = new TrainDepartureGroup();
+  //TODO: Utvide?
+
+  /**
+   * Runs the main menu of the terminal. Prints the main menu and interprets user input
+   * while validating that the input is a valid integer and that the command exists.
+   * Application closes when user inputs option 9.
+   */
   public void run() {
     boolean exit = false;
     printAppTitle();
@@ -22,7 +28,7 @@ public class UserInterface {
       try {
         int choice = Integer.parseInt(scanner.nextLine());
         System.out.println();
-
+        
         switch (choice) {
           case 1 -> printTrainDepartures();
           case 2 -> addNewTrainDeparture();
@@ -45,7 +51,6 @@ public class UserInterface {
 
     }
     System.out.println("Exiting Train Dispatch Application Alpha 0.1");
-    System.exit(0);
   }
 
   /**
@@ -76,6 +81,7 @@ public class UserInterface {
   public void printTimeOfDay() {
     System.out.println("Time: [ " + timeOfDay + " ]\n");
   }
+
   public void printMainMenu() {
     System.out.println("[1] - Display train departures");
     System.out.println("[2] - Add new train departure");
@@ -113,8 +119,8 @@ public class UserInterface {
         int track = getUserInputInt("Type in track");
 
         TrainDeparture newTrainDeparture = new TrainDeparture(time, delay, destination, line, trainNumber, track);
-        
         tdg.addTrainDeparture(newTrainDeparture);
+
         System.out.println("Train departure added\n");
         printTrainDeparturesHeader();
         System.out.println(newTrainDeparture);
@@ -185,7 +191,7 @@ public class UserInterface {
   }
 
   public void updateTime() {
-    while(true) {
+    while (true) {
       try {
         LocalTime newTime = LocalTime.parse(getUserInputString("Type in new time in hh:mm format, must be after current time of day"));
         setTimeOfDay(newTime);
