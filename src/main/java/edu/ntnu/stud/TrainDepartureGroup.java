@@ -3,7 +3,9 @@ package edu.ntnu.stud;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TransferQueue;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +39,7 @@ public class TrainDepartureGroup {
    * @param trainDeparture the train departure to add.
    */
   public void addTrainDeparture(TrainDeparture trainDeparture) {
+    validateTrainDepartureDoesNotContainTrainNumberValue(trainDeparture.getTrainNumber());
     trainDepartureGroup.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
 
@@ -70,11 +73,7 @@ public class TrainDepartureGroup {
    * @param time a LocalTime object selects the limit for what train departures to remove.
    */
   public void removeTrainDeparturesByTimeBefore(LocalTime time) {
-    for (TrainDeparture trainDeparture : trainDepartureGroup.values()) {
-      if (trainDeparture.getDepartureTime().isBefore(time)) {
-        trainDepartureGroup.remove(trainDeparture.getTrainNumber());
-      }
-    }
+    trainDepartureGroup.values().removeIf(trainDeparture -> trainDeparture.getDepartureTime().isBefore(time));
   }
   //TODO: What if there exists no train departures with the LocalTime provided?
 
