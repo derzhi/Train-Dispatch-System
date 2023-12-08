@@ -73,7 +73,7 @@ public class TrainDepartureGroup {
    * @param time a LocalTime object selects the limit for what train departures to remove.
    */
   public void removeTrainDeparturesByTimeBefore(LocalTime time) {
-    trainDepartureGroup.values().removeIf(trainDeparture -> trainDeparture.getDepartureTime().isBefore(time));
+    trainDepartureGroup.values().removeIf(trainDeparture -> trainDeparture.getDestinationTimePlusDelay().isBefore(time));
   }
   //TODO: What if there exists no train departures with the LocalTime provided?
 
