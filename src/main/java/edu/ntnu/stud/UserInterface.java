@@ -13,34 +13,35 @@ public class UserInterface {
   private static final TrainDepartureGroup tdg = new TrainDepartureGroup();
   public void run() {
     boolean exit = false;
+    displayAppTitle();
+
     while (!exit) {
-      displayAppTitle();
       displayMainMenu();
 
-      while(true) {
-        try {
-          int choice = Integer.parseInt(scanner.nextLine());
-          System.out.println();
+      try {
+        int choice = Integer.parseInt(scanner.nextLine());
+        System.out.println();
 
-          switch (choice) {
-            case 1 -> displayTrainDepartures();
-            case 2 -> addNewTrainDeparture();
-            case 3 -> setTrack();
-            case 4 -> setDelay();
-            case 5 -> searchByTrainNumber();
-            case 6 -> searchByDestination();
-            //case 7 -> updateTime();
-            case 9 -> exit = true;
-            default -> System.out.println("Invalid choice");
-          }
-
-        } catch (Exception e) {
-          System.out.println(e.getMessage());
-          System.out.println("Input is not a valid integer ");
+        switch (choice) {
+          case 1 -> displayTrainDepartures();
+          case 2 -> addNewTrainDeparture();
+          case 3 -> setTrack();
+          case 4 -> setDelay();
+          case 5 -> searchByTrainNumber();
+          case 6 -> searchByDestination();
+          case 7 -> updateTime();
+          case 9 -> exit = true;
+          default -> System.out.println("Invalid choice, "
+                  + "please select an option between 1-8 or 9 to exit the application");
         }
 
-        System.out.println();
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
+        System.out.println("Input is not a valid integer ");
       }
+
+      System.out.println();
+
     }
     System.out.println("Exiting Train Dispatch Application Alpha 0.1");
     System.exit(0);
