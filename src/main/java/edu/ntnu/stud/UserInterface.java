@@ -175,12 +175,39 @@ public class UserInterface {
     while (true) {
       try {
         String destination = getUserInputString("Type in destination");
-        tdg.getTrainDepartureByDestination(destination).forEach(System.out::println);;
+        tdg.getTrainDepartureByDestination(destination).forEach(System.out::println);
         break;
       } catch (Exception e) {
         System.out.println(e.getMessage());
         System.out.println("Not valid");
       }
+    }
+  }
+
+  public void updateTime() {
+    while(true) {
+      try {
+        LocalTime newTime = LocalTime.parse(getUserInputString("Type in new time in hh:mm format, must be after current time of day"));
+        setTimeOfDay(newTime);
+        tdg.removeTrainDeparturesByTimeBefore(newTime);
+        break;
+      } catch (Exception e) {
+        System.out.println(e.getMessage());
+        System.out.println("Not valid");
+      }
+    }
+
+  }
+
+
+  public void setTimeOfDay(LocalTime newTime) {
+    validateTimeOfDayIsAfterCurrentTimeOfDay(newTime);
+    timeOfDay = newTime;
+  }
+
+  public void validateTimeOfDayIsAfterCurrentTimeOfDay(LocalTime parameter) throws IllegalArgumentException {
+    if (parameter.isBefore(timeOfDay)) {
+      throw new IllegalArgumentException("New time must be after current time of day");
     }
   }
 
