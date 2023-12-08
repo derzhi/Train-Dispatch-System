@@ -2,6 +2,7 @@ package edu.ntnu.stud;
 
 import java.time.LocalTime;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Class for the user interface.
@@ -13,17 +14,17 @@ public class UserInterface {
   private static final TrainDepartureGroup tdg = new TrainDepartureGroup();
   public void run() {
     boolean exit = false;
-    displayAppTitle();
+    printAppTitle();
 
     while (!exit) {
-      displayMainMenu();
+      printMainMenu();
 
       try {
         int choice = Integer.parseInt(scanner.nextLine());
         System.out.println();
 
         switch (choice) {
-          case 1 -> displayTrainDepartures();
+          case 1 -> printTrainDepartures();
           case 2 -> addNewTrainDeparture();
           case 3 -> setTrack();
           case 4 -> setDelay();
@@ -68,14 +69,14 @@ public class UserInterface {
     tdg.addTrainDeparture(td4);
   }
 
-  public void displayAppTitle() {
+  public void printAppTitle() {
     System.out.println("\n--- Train Dispatch Application Alpha 0.1 ---\n");
   }
 
-  public void displayTimeOfDay() {
-    System.out.println("Time of day: " + timeOfDay + "\n");
+  public void printTimeOfDay() {
+    System.out.println("Time: [ " + timeOfDay + " ]\n");
   }
-  public void displayMainMenu() {
+  public void printMainMenu() {
     System.out.println("[1] - Display train departures");
     System.out.println("[2] - Add new train departure");
     System.out.println("[3] - Set track");
@@ -85,18 +86,20 @@ public class UserInterface {
     System.out.println("[7] - Update time");
     System.out.println("[9] - Exit application\n");
 
-    System.out.println("Type in a number of an option below an press enter:");
-
-    // Rapport: Hvorfor gå rett til 9? Hvorfor ikke 8? eller 0?
+    System.out.println("Type in a number of an option below and press enter:");
   }
 
   //TODO: Separate header and body?
-  public void displayTrainDepartures() {
-    displayTimeOfDay();
+  public void printTrainDepartures() {
+    printTimeOfDay();
+    printTrainDeparturesHeader();
+    tdg.getTrainDepartureGroupByTimeAscending().forEach(System.out::println);
+  }
+
+  public void printTrainDeparturesHeader() {
     System.out.printf("%-15s | %-5s | %-13s | %-12s | %-7s | %-5s%n",
             "Departure Time", "Line", "Train Number", "Destination", "Delay", "Track");
     System.out.println("------------------------------------------------------------------------");
-    tdg.getTrainDepartureGroupByTimeAscending().forEach(System.out::println);
   }
 
   public void addNewTrainDeparture() {
@@ -108,9 +111,13 @@ public class UserInterface {
         String line = getUserInputString("Type in line");
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
+
         TrainDeparture newTrainDeparture = new TrainDeparture(time, delay, destination, line, trainNumber, track);
+        
         tdg.addTrainDeparture(newTrainDeparture);
-        System.out.println("Train departure added" + newTrainDeparture);
+        System.out.println("Train departure added\n");
+        printTrainDeparturesHeader();
+        System.out.println(newTrainDeparture);
         break;
       } catch (Exception e) {
         System.out.println(e.getMessage());
@@ -122,7 +129,7 @@ public class UserInterface {
   public void setTrack() {
     while (true) {
       try {
-        displayTrainDepartures();
+        printTrainDepartures();
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
         tdg.getTrainDepartureByTrainNumber(trainNumber).setTrack(track);
@@ -138,7 +145,7 @@ public class UserInterface {
   public void setDelay() {
     while (true) {
       try {
-        displayTrainDepartures();
+        printTrainDepartures();
         int trainNumber = getUserInputInt("Type in train number");
         LocalTime delay = LocalTime.parse(getUserInputString("Type in delay in a 00:00 format"));
         tdg.getTrainDepartureByTrainNumber(trainNumber).setDelay(delay);
