@@ -1,11 +1,9 @@
 package edu.ntnu.stud;
 
 import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TransferQueue;
 import java.util.stream.Collectors;
 
 /**
@@ -18,8 +16,9 @@ import java.util.stream.Collectors;
 public class TrainDepartureGroup {
   private HashMap<Integer, TrainDeparture> trainDepartureGroup;
 
-  public void validateTrainDepartureDoesNotContainTrainNumberValue(int trainNumber) throws IllegalArgumentException {
-    if(trainDepartureGroup.containsKey(trainNumber)) {
+  public void validateTrainDepartureDoesNotContainTrainNumberValue(int trainNumber)
+          throws IllegalArgumentException {
+    if (trainDepartureGroup.containsKey(trainNumber)) {
       throw new IllegalArgumentException("A train departure with this train number already exists,"
               + " please type in a another train number");
     }
@@ -73,7 +72,9 @@ public class TrainDepartureGroup {
    * @param time a LocalTime object selects the limit for what train departures to remove.
    */
   public void removeTrainDeparturesByTimeBefore(LocalTime time) {
-    trainDepartureGroup.values().removeIf(trainDeparture -> trainDeparture.getDestinationTimePlusDelay().isBefore(time));
+    trainDepartureGroup.values()
+            .removeIf(trainDeparture ->
+                      trainDeparture.getDestinationTimePlusDelay().isBefore(time));
   }
   //TODO: What if there exists no train departures with the LocalTime provided?
 
