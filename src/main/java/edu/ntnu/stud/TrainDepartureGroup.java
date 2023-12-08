@@ -16,6 +16,13 @@ import java.util.stream.Collectors;
 public class TrainDepartureGroup {
   private HashMap<Integer, TrainDeparture> trainDepartureGroup;
 
+  public void validateTrainDepartureDoesNotContainTrainNumberValue(int trainNumber) throws IllegalArgumentException {
+    if(trainDepartureGroup.containsKey(trainNumber)) {
+      throw new IllegalArgumentException("A train departure with this train number already exists,"
+              + " please type in a another train number");
+    }
+  }
+
   /**
    * Constructs a new TrainDepartureGroup object which contains a
    * HashMap of TrainDeparture objects when initialized.
