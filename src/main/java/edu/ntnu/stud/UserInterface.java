@@ -15,12 +15,12 @@ public class UserInterface {
     boolean exit = false;
     while (!exit) {
       displayAppTitle();
-      displayTimeOfDay();
       displayMainMenu();
 
       while(true) {
         try {
           int choice = Integer.parseInt(scanner.nextLine());
+          System.out.println();
 
           switch (choice) {
             case 1 -> displayTrainDepartures();
@@ -38,6 +38,8 @@ public class UserInterface {
           System.out.println(e.getMessage());
           System.out.println("Input is not a valid integer ");
         }
+
+        System.out.println();
       }
     }
     System.out.println("Exiting Train Dispatch Application Alpha 0.1");
@@ -66,7 +68,7 @@ public class UserInterface {
   }
 
   public void displayAppTitle() {
-    System.out.println("--- Train Dispatch Application Alpha 0.1 ---\n");
+    System.out.println("\n--- Train Dispatch Application Alpha 0.1 ---\n");
   }
 
   public void displayTimeOfDay() {
@@ -80,13 +82,16 @@ public class UserInterface {
     System.out.println("[5] - Search for a train departure by train number");
     System.out.println("[6] - Search for a train departure by destination");
     System.out.println("[7] - Update time");
-    System.out.println("[9] - Exit application");
+    System.out.println("[9] - Exit application\n");
+
+    System.out.println("Type in a number of an option below an press enter:");
 
     // Rapport: Hvorfor gå rett til 9? Hvorfor ikke 8? eller 0?
   }
 
   //TODO: Separate header and body?
   public void displayTrainDepartures() {
+    displayTimeOfDay();
     System.out.printf("%-15s | %-5s | %-13s | %-12s | %-7s | %-5s%n",
             "Departure Time", "Line", "Train Number", "Destination", "Delay", "Track");
     System.out.println("------------------------------------------------------------------------");
