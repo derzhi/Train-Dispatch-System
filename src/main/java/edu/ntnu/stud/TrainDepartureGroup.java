@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 /**
  * Represents a group of train departures.
- * This class contains several method for manipulating a group
+ * This class contains several method for manipulating a group.
  *
  * @author Adrian Aleksander Buczek
  * @since 0.2
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class TrainDepartureGroup {
   private HashMap<Integer, TrainDeparture> trainDepartureGroup;
 
-  public void validateTrainDepartureDoesNotContainTrainNumberValue(int trainNumber)
+  public void validateTrainDepartureGroupDoesNotContainTrainNumberValue(int trainNumber)
           throws IllegalArgumentException {
     if (trainDepartureGroup.containsKey(trainNumber)) {
       throw new IllegalArgumentException("A train departure with this train number already exists,"
@@ -38,7 +38,7 @@ public class TrainDepartureGroup {
    * @param trainDeparture the train departure to add.
    */
   public void addTrainDeparture(TrainDeparture trainDeparture) {
-    validateTrainDepartureDoesNotContainTrainNumberValue(trainDeparture.getTrainNumber());
+    validateTrainDepartureGroupDoesNotContainTrainNumberValue(trainDeparture.getTrainNumber());
     trainDepartureGroup.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
 
@@ -74,7 +74,7 @@ public class TrainDepartureGroup {
   public void removeTrainDeparturesByTimeBefore(LocalTime time) {
     trainDepartureGroup.values()
             .removeIf(trainDeparture ->
-                      trainDeparture.getDestinationTimePlusDelay().isBefore(time));
+                    trainDeparture.getDestinationTimePlusDelay().isBefore(time));
   }
   //TODO: What if there exists no train departures with the LocalTime provided?
 
