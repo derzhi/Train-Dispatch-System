@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class TrainDepartureTest {
-  private TrainDeparture td;
+  private TrainDeparture trainDeparture;
 
   @Nested
   @DisplayName("Positive tests for the TrainDeparture class")
@@ -19,37 +19,60 @@ public class TrainDepartureTest {
 
     @BeforeEach
     public void setUp() {
-      td = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3123, -1);
+      trainDeparture = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3123, -1);
     }
 
     @Test
     public void getDepartureTimeShouldGetCorrectLocalTime() {
-      assertEquals(td.getDepartureTime(), LocalTime.of(15, 30));
+      assertEquals(trainDeparture.getDepartureTime(), LocalTime.of(15, 30));
     }
 
     @Test
     public void getDelayShouldGetCorrectLocalTime() {
-      assertEquals(td.getDelay(), LocalTime.of(0, 15));
+      assertEquals(trainDeparture.getDelay(), LocalTime.of(0, 15));
     }
 
     @Test
     public void getDestinationShouldGetCorrectString() {
-      assertEquals(td.getDestination(), "Bergen");
+      assertEquals(trainDeparture.getDestination(), "Bergen");
     }
 
     @Test
     public void getLineShouldGetCorrectString() {
-      assertEquals(td.getLine(), "L4");
+      assertEquals(trainDeparture.getLine(), "L4");
     }
 
     @Test
     public void getTrainNumberShouldGetCorrectInteger() {
-      assertEquals(td.getTrainNumber(), 3123);
+      assertEquals(trainDeparture.getTrainNumber(), 3123);
     }
 
     @Test
     public void getTrackNumberShouldGetCorrectInteger() {
-      assertEquals(td.getTrack(), -1);
+      assertEquals(trainDeparture.getTrack(), -1);
+    }
+
+    @Test
+    public void getFinalDepartureTimeShouldGetCorrectTime() {
+      assertEquals(trainDeparture.getFinalDepartureTime(), LocalTime.of(15, 45));
+    }
+
+    @Test
+    public void getFinalDepartureTimeShouldGetCorrectTimeWithoutDelay() {
+      trainDeparture.setDelay(LocalTime.of(0, 0));
+      assertEquals(trainDeparture.getFinalDepartureTime(), LocalTime.of(15, 30));
+    }
+
+    @Test
+    public void setDelayShouldGetCorrectDelay() {
+      trainDeparture.setDelay(LocalTime.of(1, 1));
+      assertEquals(trainDeparture.getDelay(), LocalTime.of(1, 1));
+    }
+
+    @Test
+    public void setTrackShouldGetCorrectTrack() {
+      trainDeparture.setTrack(21);
+      assertEquals(trainDeparture.getTrack(), 21);
     }
 
   }
@@ -64,7 +87,7 @@ public class TrainDepartureTest {
         new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "", "L4", 3123, 5);
         fail("Test failed");
       } catch (IllegalArgumentException e) {
-        assertEquals("The string for the parameter was a blank string, please retry.", e.getMessage());
+        assertEquals("The the parameter was a blank string, please retry.", e.getMessage());
       }
     }
 
@@ -74,7 +97,7 @@ public class TrainDepartureTest {
         new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "", 3123, 5);
         fail("Test failed");
       } catch (IllegalArgumentException e) {
-        assertEquals("The string for the parameter was a blank string, please retry.", e.getMessage());
+        assertEquals("The the parameter was a blank string, please retry.", e.getMessage());
       }
     }
 
