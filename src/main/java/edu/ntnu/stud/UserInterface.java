@@ -11,7 +11,6 @@ public class UserInterface {
   private static LocalTime timeOfDay = LocalTime.of(0, 0);
   private static final Scanner scanner = new Scanner(System.in);
   private TrainDepartureManager departures;
-  //TODO: Utvide?
 
   /**
    * Runs the main menu of the terminal. Prints the main menu and interprets user input
@@ -198,7 +197,7 @@ public class UserInterface {
     while (true) {
       try {
         LocalTime newTime = LocalTime.parse(getUserInputString("Type in new time in hh:mm format, must be after current time of day"));
-        setTimeOfDay(newTime);
+        departures.setTimeOfDay(newTime);
         departures.removeTrainDeparturesByTimeBefore(newTime);
         break;
       } catch (Exception e) {
@@ -209,24 +208,12 @@ public class UserInterface {
 
   }
 
-
-  public void setTimeOfDay(LocalTime newTime) {
-    validateTimeOfDayIsAfterCurrentTimeOfDay(newTime);
-    timeOfDay = newTime;
-  }
-
-  public void validateTimeOfDayIsAfterCurrentTimeOfDay(LocalTime parameter) throws IllegalArgumentException {
-    if (parameter.isBefore(timeOfDay)) {
-      throw new IllegalArgumentException("New time must be after current time of day");
-    }
-  }
-
-  public String getUserInputString(String message) {
+  private String getUserInputString(String message) {
     System.out.println(message);
     return scanner.nextLine();
   }
 
-  public int getUserInputInt(String message) {
+  private int getUserInputInt(String message) {
     System.out.println(message);
     return Integer.parseInt(scanner.nextLine());
   }

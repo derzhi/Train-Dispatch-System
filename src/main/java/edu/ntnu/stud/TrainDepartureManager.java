@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  */
 public class TrainDepartureManager {
   private HashMap<Integer, TrainDeparture> departures;
+  private LocalTime timeOfDay;
 
   private boolean isFinalDepartureLineCombinationUnique(LocalTime departureTime, String line) {
     return departures
@@ -83,7 +84,19 @@ public class TrainDepartureManager {
    * HashMap of TrainDeparture objects when initialized.
    */
   public TrainDepartureManager() {
-    departures = new HashMap<>();
+    this.timeOfDay = LocalTime.of(0, 0);
+    this.departures = new HashMap<>();
+  }
+
+  public void setTimeOfDay(LocalTime newTime) {
+    validateTimeOfDayIsAfterCurrentTimeOfDay(newTime);
+    this.timeOfDay = newTime;
+  }
+
+  private void validateTimeOfDayIsAfterCurrentTimeOfDay(LocalTime parameter) throws IllegalArgumentException {
+    if (parameter.isBefore(timeOfDay)) {
+      throw new IllegalArgumentException("New time must be after current time of day");
+    }
   }
 
   /**
