@@ -19,11 +19,10 @@ public class UserInterface {
    * Application closes when user inputs option 9.
    */
   public void run() {
-    boolean exit = false;
     printAppTitle();
 
-    commandLine:
-    while (!exit) {
+    mainMenu:
+    while (true) {
       printMainMenu();
 
       try {
@@ -38,7 +37,9 @@ public class UserInterface {
           case 5 -> searchByTrainNumber();
           case 6 -> searchByDestination();
           case 7 -> updateTime();
-          case 9 -> exit = true;
+          case 9 -> {
+            break mainMenu;
+          }
           default -> System.out.println("Invalid choice, "
                   + "please select an option between 1-8 or 9 to exit the application");
         }
