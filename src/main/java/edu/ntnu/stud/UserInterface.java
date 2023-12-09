@@ -22,6 +22,7 @@ public class UserInterface {
     boolean exit = false;
     printAppTitle();
 
+    commandLine:
     while (!exit) {
       printMainMenu();
 
