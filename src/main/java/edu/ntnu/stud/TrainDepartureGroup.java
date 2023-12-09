@@ -16,7 +16,59 @@ import java.util.stream.Collectors;
 public class TrainDepartureGroup {
   private HashMap<Integer, TrainDeparture> trainDepartureGroup;
 
-  public void assertTrainNumberUniqueIsValid(int trainNumber)
+  public boolean isFinalDepartureLineCombinationUnique(LocalTime departureTime, String line) {
+    return trainDepartureGroup.values()
+            .stream()
+            .noneMatch(trainDeparture -> trainDeparture.getDestinationTimePlusDelay()
+                    .equals(departureTime) && trainDeparture.getLine().equals(line));
+
+  }
+
+  public boolean isFinalDepartureTrackCombinationUnique(LocalTime departureTime, int track) {
+    int unassigned = -1;
+    //TODO: add unassigned variable to train departure class?
+
+    if (track == unassigned) {
+      return false;
+    }
+
+    return trainDepartureGroup.values()
+            .stream()
+            .noneMatch(trainDeparture -> trainDeparture.getDestinationTimePlusDelay()
+                    .equals(departureTime) && trainDeparture.getTrack() == track);
+  }
+
+  /**
+   * Asserts that departure time and line is a unique combination in a
+   * train departure group of train departures.
+   *
+   * @param departureTime a LocalTime object of a trains departure time.
+   * @param line          a String object of a train departure line.
+   * @throws IllegalArgumentException if there exists a train departure with
+   *                                  the same departure time and line.
+   */
+  public void assertUniqueLineDeparture(LocalTime departureTime, String line)
+          throws IllegalArgumentException {
+    if (!isFinalDepartureLineCombinationUnique(departureTime, line)) {
+      throw new IllegalArgumentException("A train departure with this departure time and line "
+              + "already exists");
+    }
+  }
+
+  public void assertUniqueTrackDeparture(LocalTime departureTime, int track) throws IllegalArgumentException {
+    if (!isFinalDepartureTrackCombinationUnique(departureTime, track)) {
+      throw new IllegalArgumentException("A train departure with this departure time and track "
+              + "already exists");
+    }
+  }
+
+  public void assertUniqueDepartureScheduling(LocalTime departureTime, String line, int track) {
+    assertUniqueLineDeparture(departureTime, line);
+    assertUniqueTrackDeparture(departureTime, track);
+  }
+  //TODO: Comment Throws
+
+  public void assertTrainNumberIsUnique(int trainNumber)
           throws IllegalArgumentException {
     if (trainDepartureGroup.containsKey(trainNumber)) {
       throw new IllegalArgumentException("A train departure with this train number already exists,"
@@ -38,7 +90,7 @@ public class TrainDepartureGroup {
    * @param trainDeparture the train departure to add.
    */
   public void addTrainDeparture(TrainDeparture trainDeparture) {
-    assertTrainNumberUniqueIsValid(trainDeparture.getTrainNumber());
+    assertTrainNumberIsUnique(trainDeparture.getTrainNumber());
     trainDepartureGroup.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
 

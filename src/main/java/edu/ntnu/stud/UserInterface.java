@@ -28,7 +28,7 @@ public class UserInterface {
       try {
         int choice = Integer.parseInt(scanner.nextLine());
         System.out.println();
-        
+
         switch (choice) {
           case 1 -> printTrainDepartures();
           case 2 -> addNewTrainDeparture();
@@ -111,14 +111,17 @@ public class UserInterface {
   public void addNewTrainDeparture() {
     while (true) {
       try {
-        LocalTime time = LocalTime.parse(getUserInputString("Type in departure time in a 00:00 format"));
+        LocalTime departureTime = LocalTime.parse(getUserInputString("Type in departure time in a 00:00 format"));
         LocalTime delay = LocalTime.parse(getUserInputString("Type in delay in a 00:00 format"));
         String destination = getUserInputString("Type in destination");
         String line = getUserInputString("Type in line");
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
 
-        TrainDeparture newTrainDeparture = new TrainDeparture(time, delay, destination, line, trainNumber, track);
+        tdg.assertUniqueDepartureScheduling(departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute()), line, track);
+        //TODO finaltime function is already in TrainDeparture
+
+        TrainDeparture newTrainDeparture = new TrainDeparture(departureTime, delay, destination, line, trainNumber, track);
         tdg.addTrainDeparture(newTrainDeparture);
 
         System.out.println("Train departure added\n");
