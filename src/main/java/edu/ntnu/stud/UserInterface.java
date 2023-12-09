@@ -10,7 +10,7 @@ public class UserInterface {
 
   private static LocalTime timeOfDay = LocalTime.of(0, 0);
   private static final Scanner scanner = new Scanner(System.in);
-  private static final TrainDepartureManager tdg = new TrainDepartureManager();
+  private TrainDepartureManager departures;
   //TODO: Utvide?
 
   /**
@@ -59,6 +59,8 @@ public class UserInterface {
    * test.
    */
   public void init() {
+    departures = new TrainDepartureManager();
+
     TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 34), LocalTime.of(0, 5),
             "Bergen", "F4", 1, 2);
     TrainDeparture td2 = new TrainDeparture(LocalTime.of(18, 43), LocalTime.of(0, 0),
@@ -68,10 +70,10 @@ public class UserInterface {
     TrainDeparture td4 = new TrainDeparture(LocalTime.of(11, 12), LocalTime.of(0, 0),
             "Helvete", "F4", 4, 5);
 
-    tdg.addTrainDeparture(td1);
-    tdg.addTrainDeparture(td2);
-    tdg.addTrainDeparture(td3);
-    tdg.addTrainDeparture(td4);
+    departures.addTrainDeparture(td1);
+    departures.addTrainDeparture(td2);
+    departures.addTrainDeparture(td3);
+    departures.addTrainDeparture(td4);
   }
 
   public void printAppTitle() {
@@ -95,11 +97,10 @@ public class UserInterface {
     System.out.println("Type in a number of an option below and press enter:");
   }
 
-  //TODO: Separate header and body?
   public void printTrainDepartures() {
     printTimeOfDay();
     printTrainDeparturesHeader();
-    tdg.getDepartures().forEach(System.out::println);
+    departures.getDepartures().forEach(System.out::println);
   }
 
   public void printTrainDeparturesHeader() {
@@ -118,11 +119,11 @@ public class UserInterface {
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
 
-        tdg.assertUniqueDepartureScheduling(departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute()), line, track);
-        //TODO finaltime function is already in TrainDeparture
+        departures.assertUniqueDepartureScheduling(departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute()), line, track);
+        //TODO final time function is already in TrainDeparture
 
         TrainDeparture newTrainDeparture = new TrainDeparture(departureTime, delay, destination, line, trainNumber, track);
-        tdg.addTrainDeparture(newTrainDeparture);
+        departures.addTrainDeparture(newTrainDeparture);
 
         System.out.println("Train departure added\n");
         printTrainDeparturesHeader();
@@ -141,7 +142,7 @@ public class UserInterface {
         printTrainDepartures();
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
-        tdg.getTrainDepartureByTrainNumber(trainNumber).setTrack(track);
+        departures.getTrainDepartureByTrainNumber(trainNumber).setTrack(track);
         System.out.println("Track set");
         break;
       } catch (Exception e) {
@@ -157,7 +158,7 @@ public class UserInterface {
         printTrainDepartures();
         int trainNumber = getUserInputInt("Type in train number");
         LocalTime delay = LocalTime.parse(getUserInputString("Type in delay in a 00:00 format"));
-        tdg.getTrainDepartureByTrainNumber(trainNumber).setDelay(delay);
+        departures.getTrainDepartureByTrainNumber(trainNumber).setDelay(delay);
         System.out.println("Delay set");
         break;
       } catch (Exception e) {
@@ -171,7 +172,7 @@ public class UserInterface {
     while (true) {
       try {
         int trainNumber = getUserInputInt("Type in train number");
-        System.out.println(tdg.getTrainDepartureByTrainNumber(trainNumber));
+        System.out.println(departures.getTrainDepartureByTrainNumber(trainNumber));
         break;
       } catch (Exception e) {
         System.out.println(e.getMessage());
@@ -184,7 +185,7 @@ public class UserInterface {
     while (true) {
       try {
         String destination = getUserInputString("Type in destination");
-        tdg.getTrainDepartureByDestination(destination).forEach(System.out::println);
+        departures.getTrainDepartureByDestination(destination).forEach(System.out::println);
         break;
       } catch (Exception e) {
         System.out.println(e.getMessage());
@@ -198,7 +199,7 @@ public class UserInterface {
       try {
         LocalTime newTime = LocalTime.parse(getUserInputString("Type in new time in hh:mm format, must be after current time of day"));
         setTimeOfDay(newTime);
-        tdg.removeTrainDeparturesByTimeBefore(newTime);
+        departures.removeTrainDeparturesByTimeBefore(newTime);
         break;
       } catch (Exception e) {
         System.out.println(e.getMessage());
