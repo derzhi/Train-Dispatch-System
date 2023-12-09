@@ -28,7 +28,7 @@ import java.time.LocalTime;
  *     <li>The train and track number required positive integers, potentially ranging from two
  *     to four digits. The primitive datatype {@code int} was selected, given its adequate range
  *     and the absence of memory constraints to be concerned about in this context.</li>
- * </ul><br><br>
+ * </ul>
  *
  * <p><b>Immutable attributes after object creation:</b></p>
  * The following attributes are considered immutable after a TrainDeparture object is created:
@@ -40,7 +40,7 @@ import java.time.LocalTime;
  *     <li>{@code destination}, {@code line}, {@code trainNumber}  - These values should remain
  *     constant for clarity and ease of reference. There are also no functionality requirement to
  *     edit this information for a train departure</li>
- * </ul><br><br>
+ * </ul>
  *
  * <p><b>Mutable attributes after object creation:</b></p>
  * Certain attributes can be changed after the TrainDeparture object has been instantiated:
@@ -49,7 +49,7 @@ import java.time.LocalTime;
  *     to set the delay.</li>
  *     <li>{@code track} - Can be altered based on application functionalities
  *     to set the track.</li>
- * </ul><br><br>
+ * </ul>
  *
  * <p><b>Handling invalid data:</b></p>
  * This class takes steps to validate data upon the creation of a TrainDeparture object:
@@ -65,7 +65,7 @@ import java.time.LocalTime;
  *     <li>{@code trainNumber} - Must be a positive integer of a certain range.</li>
  *     <li>{@code track} - A positive integer, but values beyond certain thresholds or of
  *     incorrect datatype will trigger exceptions.</li>
- * </ul><br><br>
+ * </ul>
  *
  * @author Adrian Aleksander Buczek
  * @version 0.1
@@ -80,70 +80,28 @@ public class TrainDeparture {
   private int track;
 
   /**
-   * Validates a string parameter to ensure it is not blank.
+   * Constructs a object resembling a train departure.
+   * Does this only after verifying that the parameters are valid.
    *
-   * @param parameter the string parameter to validate
-   * @throws IllegalArgumentException if the string is blank
-   */
-  private void validateStringParameter(String parameter) throws IllegalArgumentException {
-    if (parameter.isBlank()) {
-      throw new IllegalArgumentException("The string for the parameter was a blank string, "
-              + "please retry.");
-    }
-  }
-
-  /**
-   * Validates an integer parameter to ensure it is not negative.
-   *
-   * @param parameter the integer parameter to validate
-   * @throws IllegalArgumentException if the integer is negative
-   */
-  private void validatePositiveIntegerParameter(int parameter) throws IllegalArgumentException {
-    if (parameter < 1) {
-      throw new IllegalArgumentException("The integer for the parameter was negative, "
-              + "please retry.");
-    }
-  }
-
-  /**
-   * Validates an integer parameter to ensure it bigger than zero or equal to negative one.
-   *
-   * @param parameter the integer parameter to validate
-   * @throws IllegalArgumentException if the integer is not bigger than zero
-   *                                  or equal to negative one.
-   */
-  private void validatePositiveIntegerOrNegativeOne(int parameter) throws IllegalArgumentException {
-    if (parameter < 1 && parameter != -1) {
-      throw new IllegalArgumentException("The integer for the parameter was not over 0 or -1, "
-              + "please retry.");
-    }
-  }
-
-  /**
-   * Constructs a TrainDeparture object by a assigning the parameters below as
-   * attributes of the Item. Does this only after verifying that all the parameters are valid.
-   *
-   * @param departureTime a LocalTime parameter representing the departure time of a train
-   *                      in a hh:mm format.
-   * @param delay         a LocalTime parameter represent the delay time after the departure time.
+   * @param departureTime a LocalTime object representing the departure time of a train
+   *                      in a hh:mm format without the delay.
+   * @param delay         a LocalTime object representing the delay time after the departure time.
    *                      If is not delayed it is set to 00:00.
    * @param destination   a String parameter representing the destination of a train.
-   * @param line          a String parameter representing the line of a train.
+   * @param line          a String parameter representing the line the train will be taking.
    * @param trainNumber   a positive integer representing a unique train number.
-   * @param track         A int parameter that represent the track where the train is supposed to
-   *                      arrive at. If a train does not have a track assigned, it is set to -1.
+   * @param track         an int parameter that represents the track where the train is supposed to
+   *                      arrive at and depart from. If a train does not have a track assigned it is
+   *                      set to -1.
    * @throws IllegalArgumentException if any of the String parameters are blank, trainNumber is not
    *                                  a positive integer or if the track parameter is not a positive
    *                                  integer or -1.
    */
-
-  //TODO: can destination only contain letters and not numbers?
-  //TODO: LocalTime has methods for manipulation?
   public TrainDeparture(LocalTime departureTime, LocalTime delay, String destination,
                         String line, int trainNumber, int track) throws IllegalArgumentException {
-    validateStringParameter(destination);
-    validateStringParameter(line);
-    validatePositiveIntegerParameter(trainNumber);
+    assertStringNotBlank(destination);
+    assertStringNotBlank(line);
+    assertPositiveIntegerParameter(trainNumber);
     validatePositiveIntegerOrNegativeOne(track);
 
     this.departureTime = departureTime;
@@ -152,10 +110,6 @@ public class TrainDeparture {
     this.line = line;
     this.trainNumber = trainNumber;
     this.track = track;
-
-    //TODO: Better to do verification in constructor or before constructor?
-    //Could be better because of instant feedback to the user.
-    //Multiple validation layers make the system robust
   }
 
   /**
@@ -188,7 +142,7 @@ public class TrainDeparture {
   /**
    * Returns a String representing the line (route) of a train.
    *
-   * @return a String with the combination of integers and letters.
+   * @return a String with the name of the line
    */
   public String getLine() {
     return line;
@@ -205,8 +159,9 @@ public class TrainDeparture {
 
   /**
    * Returns the integer value representing the track the train is supposed to arrive at.
+   * A track number of -1 represent that the train is not assigned to any track.
    *
-   * @return an integer of the track number, -1 representing that the train is unassigned.
+   * @return an integer of the track number.
    */
   public int getTrack() {
     return track;
@@ -217,15 +172,15 @@ public class TrainDeparture {
    *
    * @return a LocalTime object with departure time plus hours of delay and minutes of delay.
    */
-  public LocalTime getDestinationTimePlusDelay() {
+  public LocalTime getFinalDepartureTime() {
     return departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
   }
 
   /**
-   * Sets an positive integer value or -1 as the track attribute of an
+   * Sets a positive integer value or -1 as the track attribute of an
    * existing TrainDeparture object.
    *
-   * @param track is a positive integer value or -1.
+   * @param track is a positive integer value or -1 (unassigned track)
    * @throws IllegalArgumentException if the input parameter is not a positive integer or -1.
    */
   public void setTrack(int track) throws IllegalArgumentException {
@@ -243,9 +198,49 @@ public class TrainDeparture {
   }
 
   /**
-   * Prints a String that represents a train departure all its attribute information.
+   * Asserts a that a String parameter is not blank.
+   *
+   * @param parameter the string parameter to validate
+   * @throws IllegalArgumentException if the string is blank
+   */
+  private void assertStringNotBlank(String parameter) throws IllegalArgumentException {
+    if (parameter.isBlank()) {
+      throw new IllegalArgumentException("The the parameter was a blank string, "
+              + "please retry.");
+    }
+  }
+
+  /**
+   * Validates an integer parameter to ensure it is not negative.
+   *
+   * @param parameter the integer parameter to validate
+   * @throws IllegalArgumentException if the integer is negative
+   */
+  private void assertPositiveIntegerParameter(int parameter) throws IllegalArgumentException {
+    if (parameter < 1) {
+      throw new IllegalArgumentException("The integer for the parameter was negative, "
+              + "please retry.");
+    }
+  }
+
+  /**
+   * Validates an integer parameter to ensure it bigger than zero or equal to negative one.
+   *
+   * @param parameter the integer parameter to validate
+   * @throws IllegalArgumentException if the integer is not bigger than zero
+   *                                  or equal to negative one.
+   */
+  private void validatePositiveIntegerOrNegativeOne(int parameter) throws IllegalArgumentException {
+    if (parameter < 1 && parameter != -1) {
+      throw new IllegalArgumentException("The integer for the parameter was not over 0 or -1, "
+              + "please retry.");
+    }
+  }
+
+  /**
+   * Prints a String that represents a train departure with all its attribute information.
    * Where delay is not printed if delay is 00:00, and where the track is not printed
-   * if it is -1
+   * if it is -1 (unassigned).
    *
    * @return a String that represents the train departure information.
    */
@@ -271,5 +266,4 @@ public class TrainDeparture {
             track
     );
   }
-
 }

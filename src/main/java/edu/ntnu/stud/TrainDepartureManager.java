@@ -21,7 +21,7 @@ public class TrainDepartureManager {
     return departures
             .values()
             .stream()
-            .noneMatch(trainDeparture -> trainDeparture.getDestinationTimePlusDelay()
+            .noneMatch(trainDeparture -> trainDeparture.getFinalDepartureTime()
                     .equals(departureTime) && trainDeparture.getLine().equals(line)
             );
 
@@ -37,7 +37,7 @@ public class TrainDepartureManager {
 
     return departures.values()
             .stream()
-            .noneMatch(trainDeparture -> trainDeparture.getDestinationTimePlusDelay()
+            .noneMatch(trainDeparture -> trainDeparture.getFinalDepartureTime()
                     .equals(departureTime) && trainDeparture.getTrack() == track);
   }
 
@@ -160,7 +160,7 @@ public class TrainDepartureManager {
   public void removeTrainDeparturesByTimeBefore(LocalTime time) {
     departures.values()
             .removeIf(trainDeparture ->
-                    trainDeparture.getDestinationTimePlusDelay().isBefore(time));
+                    trainDeparture.getFinalDepartureTime().isBefore(time));
   }
   //TODO: What if there exists no train departures with the LocalTime provided?
 
