@@ -132,7 +132,6 @@ public class TrainDeparture {
    * @param trainNumber   a positive integer representing a unique train number.
    * @param track         A int parameter that represent the track where the train is supposed to
    *                      arrive at. If a train does not have a track assigned, it is set to -1.
-   *
    * @throws IllegalArgumentException if any of the String parameters are blank, trainNumber is not
    *                                  a positive integer or if the track parameter is not a positive
    *                                  integer or -1.
@@ -229,7 +228,7 @@ public class TrainDeparture {
    * @param track is a positive integer value or -1.
    * @throws IllegalArgumentException if the input parameter is not a positive integer or -1.
    */
-  public void setTrack(int track) {
+  public void setTrack(int track) throws IllegalArgumentException {
     validatePositiveIntegerOrNegativeOne(track);
     this.track = track;
   }

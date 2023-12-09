@@ -90,8 +90,9 @@ public class TrainDepartureManager {
    * Adds a train departure to the departures.
    *
    * @param trainDeparture the train departure to add.
+   * @throws IllegalArgumentException if train number is not unique.
    */
-  public void addTrainDeparture(TrainDeparture trainDeparture) {
+  public void addTrainDeparture(TrainDeparture trainDeparture) throws IllegalArgumentException {
     assertTrainNumberIsUnique(trainDeparture.getTrainNumber());
     departures.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
