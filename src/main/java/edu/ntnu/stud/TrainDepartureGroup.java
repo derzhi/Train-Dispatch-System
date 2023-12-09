@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class TrainDepartureGroup {
   private HashMap<Integer, TrainDeparture> trainDepartureGroup;
 
-  public void assertTrainNumberUnique(int trainNumber)
+  public void assertTrainNumberUniqueIsValid(int trainNumber)
           throws IllegalArgumentException {
     if (trainDepartureGroup.containsKey(trainNumber)) {
       throw new IllegalArgumentException("A train departure with this train number already exists,"
@@ -38,7 +38,7 @@ public class TrainDepartureGroup {
    * @param trainDeparture the train departure to add.
    */
   public void addTrainDeparture(TrainDeparture trainDeparture) {
-    assertTrainNumberUnique(trainDeparture.getTrainNumber());
+    assertTrainNumberUniqueIsValid(trainDeparture.getTrainNumber());
     trainDepartureGroup.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
 
