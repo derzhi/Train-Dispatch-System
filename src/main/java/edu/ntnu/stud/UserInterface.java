@@ -62,6 +62,16 @@ public class UserInterface {
    */
   public void init() {
     departures = new TrainDepartureManager();
+
+    TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "A4", 1, 5);
+    TrainDeparture td2 = new TrainDeparture(LocalTime.of(12, 30), LocalTime.of(0, 0), "Trondheim", "A4", 5, 5);
+    TrainDeparture td3 = new TrainDeparture(LocalTime.of(11, 20), LocalTime.of(0, 5), "Trondheim", "L4", 3, 3);
+    TrainDeparture td4 = new TrainDeparture(LocalTime.of(07, 21), LocalTime.of(0, 0), "Kragerø", "A4", 21, -1);
+
+    departures.addTrainDeparture(td1);
+    departures.addTrainDeparture(td2);
+    departures.addTrainDeparture(td3);
+    departures.addTrainDeparture(td4);
   }
 
   private void printTrainArtwork() {
