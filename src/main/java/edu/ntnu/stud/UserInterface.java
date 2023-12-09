@@ -75,7 +75,7 @@ public class UserInterface {
   }
 
   private void printTrainArtwork() {
-    System.out.println("___________   _______________________________________^__");
+    System.out.println("\n___________   _______________________________________^__");
     System.out.println(" ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\\");
     System.out.println("|   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____|");
     System.out.println("|___| |___|||| |___| |___| |___|  | O | O | |  |  |        \\");
@@ -127,10 +127,10 @@ public class UserInterface {
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
 
-        departures.assertUniqueDepartureScheduling(departureTime
-                .plusHours(delay.getHour())
-                .plusMinutes(delay.getMinute()), line, track);
-        //TODO final time function is already in TrainDeparture
+        LocalTime finalDepartureTime = departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
+
+        departures.assertDepartureTimeIsNotAfterTimeOfDay(finalDepartureTime);
+        departures.assertUniqueDepartureScheduling(finalDepartureTime, line, track);
 
         TrainDeparture newTrainDeparture = new TrainDeparture(departureTime, delay, destination,
                 line, trainNumber, track);

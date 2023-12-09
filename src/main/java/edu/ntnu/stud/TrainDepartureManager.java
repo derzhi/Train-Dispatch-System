@@ -145,6 +145,13 @@ public class TrainDepartureManager {
 
   }
 
+  public void assertDepartureTimeIsNotAfterTimeOfDay(LocalTime departureTime)
+          throws IllegalArgumentException {
+    if (departureTime.isBefore(timeOfDay)) {
+      throw new IllegalArgumentException("Departure time must not be after time of day");
+    }
+  }
+
   /**
    * Removes train departures from a train departure manager that are before a certain time.
    *
