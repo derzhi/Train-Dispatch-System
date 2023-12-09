@@ -7,8 +7,6 @@ import java.util.Scanner;
  * Class for the user interface.
  */
 public class UserInterface {
-
-  private static LocalTime timeOfDay = LocalTime.of(0, 0);
   private static final Scanner scanner = new Scanner(System.in);
   private TrainDepartureManager departures;
 
@@ -80,7 +78,7 @@ public class UserInterface {
   }
 
   public void printTimeOfDay() {
-    System.out.println("Time: [ " + timeOfDay + " ]\n");
+    System.out.println("Time: [ " + departures.getTimeOfDay() + " ]\n");
   }
 
   public void printMainMenu() {

@@ -88,6 +88,10 @@ public class TrainDepartureManager {
     this.departures = new HashMap<>();
   }
 
+  public LocalTime getTimeOfDay() {
+    return timeOfDay;
+  }
+
   public void setTimeOfDay(LocalTime newTime) {
     validateTimeOfDayIsAfterCurrentTimeOfDay(newTime);
     this.timeOfDay = newTime;
