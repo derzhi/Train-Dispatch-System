@@ -16,6 +16,7 @@ public class UserInterface {
    * Application closes when user inputs option 9.
    */
   public void run() {
+    printTrainArtwork();
     printAppTitle();
 
     commandLine:
@@ -61,6 +62,15 @@ public class UserInterface {
    */
   public void init() {
     departures = new TrainDepartureManager();
+  }
+
+  private void printTrainArtwork() {
+    System.out.println("___________   _______________________________________^__");
+    System.out.println(" ___   ___ |||  ___   ___   ___    ___ ___  |   __  ,----\\");
+    System.out.println("|   | |   |||| |   | |   | |   |  |   |   | |  |  | |_____|");
+    System.out.println("|___| |___|||| |___| |___| |___|  | O | O | |  |  |        \\");
+    System.out.println("           |||                    |___|___| |  |__|         )");
+    System.out.println("___________|||______________________________|______________/");
   }
 
   public void printAppTitle() {
