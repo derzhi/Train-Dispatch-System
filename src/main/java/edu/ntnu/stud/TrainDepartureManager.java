@@ -71,6 +71,13 @@ public class TrainDepartureManager {
   }
   //TODO: Comment Throws
 
+  public void assertDeparturesNotEmpty() throws IllegalArgumentException {
+    if (departures.isEmpty()) {
+      throw new IllegalArgumentException("Option is not available because "
+              + "no train departures exist");
+    }
+  }
+
   private void assertTrainNumberIsUnique(int trainNumber)
           throws IllegalArgumentException {
     if (departures.containsKey(trainNumber)) {

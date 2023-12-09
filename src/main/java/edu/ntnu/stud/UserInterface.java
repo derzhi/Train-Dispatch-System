@@ -26,6 +26,10 @@ public class UserInterface {
         int choice = Integer.parseInt(scanner.nextLine());
         System.out.println();
 
+        if (choice == 1 || choice == 3 || choice == 4 || choice == 5 || choice == 6) {
+          departures.assertDeparturesNotEmpty();
+        }
+
         switch (choice) {
           case 1 -> printTrainDepartures();
           case 2 -> addNewTrainDeparture();
@@ -57,20 +61,6 @@ public class UserInterface {
    */
   public void init() {
     departures = new TrainDepartureManager();
-
-    TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 34), LocalTime.of(0, 5),
-            "Bergen", "F4", 1, 2);
-    TrainDeparture td2 = new TrainDeparture(LocalTime.of(18, 43), LocalTime.of(0, 0),
-            "Stavanger", "F4", 2, -1);
-    TrainDeparture td3 = new TrainDeparture(LocalTime.of(11, 12), LocalTime.of(0, 0),
-            "Helvete", "F4", 3, 4);
-    TrainDeparture td4 = new TrainDeparture(LocalTime.of(11, 12), LocalTime.of(0, 0),
-            "Helvete", "F4", 4, 5);
-
-    departures.addTrainDeparture(td1);
-    departures.addTrainDeparture(td2);
-    departures.addTrainDeparture(td3);
-    departures.addTrainDeparture(td4);
   }
 
   public void printAppTitle() {
@@ -109,17 +99,21 @@ public class UserInterface {
   public void addNewTrainDeparture() {
     while (true) {
       try {
-        LocalTime departureTime = LocalTime.parse(getUserInputString("Type in departure time in a 00:00 format"));
+        LocalTime departureTime = LocalTime.parse(getUserInputString("Type in departure time "
+                + "in a 00:00 format"));
         LocalTime delay = LocalTime.parse(getUserInputString("Type in delay in a 00:00 format"));
         String destination = getUserInputString("Type in destination");
         String line = getUserInputString("Type in line");
         int trainNumber = getUserInputInt("Type in train number");
         int track = getUserInputInt("Type in track");
 
-        departures.assertUniqueDepartureScheduling(departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute()), line, track);
+        departures.assertUniqueDepartureScheduling(departureTime
+                .plusHours(delay.getHour())
+                .plusMinutes(delay.getMinute()), line, track);
         //TODO final time function is already in TrainDeparture
 
-        TrainDeparture newTrainDeparture = new TrainDeparture(departureTime, delay, destination, line, trainNumber, track);
+        TrainDeparture newTrainDeparture = new TrainDeparture(departureTime, delay, destination,
+                line, trainNumber, track);
         departures.addTrainDeparture(newTrainDeparture);
 
         System.out.println("Train departure added\n");
@@ -194,7 +188,8 @@ public class UserInterface {
   public void updateTime() {
     while (true) {
       try {
-        LocalTime newTime = LocalTime.parse(getUserInputString("Type in new time in hh:mm format, must be after current time of day"));
+        LocalTime newTime = LocalTime.parse(getUserInputString("Type in new time in hh:mm format,"
+                + " must be after current time of day"));
         departures.setTimeOfDay(newTime);
         departures.removeTrainDeparturesByTimeBefore(newTime);
         break;
