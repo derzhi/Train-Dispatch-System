@@ -21,7 +21,7 @@ public class UserInterface {
   public void run() {
     printAppTitle();
 
-    mainMenu:
+    commandLine:
     while (true) {
       printMainMenu();
 
@@ -38,7 +38,7 @@ public class UserInterface {
           case 6 -> searchByDestination();
           case 7 -> updateTime();
           case 9 -> {
-            break mainMenu;
+            break commandLine;
           }
           default -> System.out.println("Invalid choice, "
                   + "please select an option between 1-8 or 9 to exit the application");
