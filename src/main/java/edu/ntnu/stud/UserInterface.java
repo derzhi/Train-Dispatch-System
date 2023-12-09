@@ -10,7 +10,7 @@ public class UserInterface {
 
   private static LocalTime timeOfDay = LocalTime.of(0, 0);
   private static final Scanner scanner = new Scanner(System.in);
-  private static final TrainDepartureGroup tdg = new TrainDepartureGroup();
+  private static final TrainDepartureManager tdg = new TrainDepartureManager();
   //TODO: Utvide?
 
   /**
@@ -32,8 +32,8 @@ public class UserInterface {
         switch (choice) {
           case 1 -> printTrainDepartures();
           case 2 -> addNewTrainDeparture();
-          case 3 -> setTrack();
-          case 4 -> setDelay();
+          case 3 -> updateTrack();
+          case 4 -> updateDelay();
           case 5 -> searchByTrainNumber();
           case 6 -> searchByDestination();
           case 7 -> updateTime();
@@ -59,7 +59,6 @@ public class UserInterface {
    * test.
    */
   public void init() {
-    //Test values for TrainDeparture object
     TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 34), LocalTime.of(0, 5),
             "Bergen", "F4", 1, 2);
     TrainDeparture td2 = new TrainDeparture(LocalTime.of(18, 43), LocalTime.of(0, 0),
@@ -69,7 +68,6 @@ public class UserInterface {
     TrainDeparture td4 = new TrainDeparture(LocalTime.of(11, 12), LocalTime.of(0, 0),
             "Helvete", "F4", 4, 5);
 
-    //Test values for TrainDepartureGroup object
     tdg.addTrainDeparture(td1);
     tdg.addTrainDeparture(td2);
     tdg.addTrainDeparture(td3);
@@ -101,7 +99,7 @@ public class UserInterface {
   public void printTrainDepartures() {
     printTimeOfDay();
     printTrainDeparturesHeader();
-    tdg.getTrainDepartureGroupByTimeAscending().forEach(System.out::println);
+    tdg.getDepartures().forEach(System.out::println);
   }
 
   public void printTrainDeparturesHeader() {
@@ -137,7 +135,7 @@ public class UserInterface {
     }
   }
 
-  public void setTrack() {
+  public void updateTrack() {
     while (true) {
       try {
         printTrainDepartures();
@@ -153,7 +151,7 @@ public class UserInterface {
     }
   }
 
-  public void setDelay() {
+  public void updateDelay() {
     while (true) {
       try {
         printTrainDepartures();

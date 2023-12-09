@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TrainDepartureGroupTest {
 
@@ -17,7 +17,7 @@ public class TrainDepartureGroupTest {
 
     @Test
     public void addedTrainDepartureCanBeAccessed() {
-      TrainDepartureGroup tdg = new TrainDepartureGroup();
+      TrainDepartureManager tdg = new TrainDepartureManager();
       TrainDeparture td = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3123, -1);
       tdg.addTrainDeparture(td);
       assertEquals(td, tdg.getTrainDepartureByTrainNumber(3123));
@@ -25,7 +25,7 @@ public class TrainDepartureGroupTest {
 
     @Test
     public void getTrainDepartureByDestinationReturnsCorrectList() {
-      TrainDepartureGroup tdg = new TrainDepartureGroup();
+      TrainDepartureManager tdg = new TrainDepartureManager();
       TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3123, -1);
       TrainDeparture td2 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3124, -1);
       TrainDeparture td3 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Oslo", "L4", 3125, -1);
@@ -37,7 +37,7 @@ public class TrainDepartureGroupTest {
 
     @Test
     public void getTrainDepartureByDestinationReturnsEmptyList() {
-      TrainDepartureGroup tdg = new TrainDepartureGroup();
+      TrainDepartureManager tdg = new TrainDepartureManager();
       TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3123, -1);
       TrainDeparture td2 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3124, -1);
       TrainDeparture td3 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Oslo", "L4", 3125, -1);
@@ -46,7 +46,6 @@ public class TrainDepartureGroupTest {
       tdg.addTrainDeparture(td3);
       assertEquals(List.of(), tdg.getTrainDepartureByDestination("Trondheim"));
     }
-
 
 
   }

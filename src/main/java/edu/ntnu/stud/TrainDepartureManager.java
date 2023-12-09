@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
  * @author Adrian Aleksander Buczek
  * @since 0.2
  */
-public class TrainDepartureGroup {
-  private HashMap<Integer, TrainDeparture> trainDepartureGroup;
+public class TrainDepartureManager {
+  private HashMap<Integer, TrainDeparture> departures;
 
   private boolean isFinalDepartureLineCombinationUnique(LocalTime departureTime, String line) {
-    return trainDepartureGroup
+    return departures
             .values()
             .stream()
             .noneMatch(trainDeparture -> trainDeparture.getDestinationTimePlusDelay()
@@ -34,7 +34,7 @@ public class TrainDepartureGroup {
       return true;
     }
 
-    return trainDepartureGroup.values()
+    return departures.values()
             .stream()
             .noneMatch(trainDeparture -> trainDeparture.getDestinationTimePlusDelay()
                     .equals(departureTime) && trainDeparture.getTrack() == track);
@@ -42,7 +42,7 @@ public class TrainDepartureGroup {
 
   /**
    * Asserts that departure time and line is a unique combination in a
-   * train departure group of train departures.
+   * train departure manager of train departures.
    *
    * @param departureTime a LocalTime object of a trains departure time.
    * @param line          a String object of a train departure line.
@@ -72,61 +72,61 @@ public class TrainDepartureGroup {
 
   private void assertTrainNumberIsUnique(int trainNumber)
           throws IllegalArgumentException {
-    if (trainDepartureGroup.containsKey(trainNumber)) {
+    if (departures.containsKey(trainNumber)) {
       throw new IllegalArgumentException("A train departure with this train number already exists,"
               + " please type in a another train number");
     }
   }
 
   /**
-   * Constructs a new TrainDepartureGroup object which contains a
+   * Constructs a new departures object which contains a
    * HashMap of TrainDeparture objects when initialized.
    */
-  public TrainDepartureGroup() {
-    trainDepartureGroup = new HashMap<>();
+  public TrainDepartureManager() {
+    departures = new HashMap<>();
   }
 
   /**
-   * Adds a train departure to the group.
+   * Adds a train departure to the departures.
    *
    * @param trainDeparture the train departure to add.
    */
   public void addTrainDeparture(TrainDeparture trainDeparture) {
     assertTrainNumberIsUnique(trainDeparture.getTrainNumber());
-    trainDepartureGroup.put(trainDeparture.getTrainNumber(), trainDeparture);
+    departures.put(trainDeparture.getTrainNumber(), trainDeparture);
   }
 
   /**
-   * Gets a train departure by train number from train departure group.
+   * Gets a train departure by train number from train departure manager.
    *
    * @param trainNumber the train number of a train you want to find.
    * @return the train departure with the given train number.
    */
   public TrainDeparture getTrainDepartureByTrainNumber(int trainNumber) {
-    return trainDepartureGroup.get(trainNumber);
+    return departures.get(trainNumber);
   }
 
   /**
    * Returns a list of TrainDepartures by a given destination in a
-   * TrainDepartureGroup if they exist.
+   * departures if they exist.
    *
    * @param destination the destination you want to search by
    * @return either a list of train departures or null.
    */
   public List<TrainDeparture> getTrainDepartureByDestination(String destination) {
-    return trainDepartureGroup.values()
+    return departures.values()
             .stream()
             .filter(trainDeparture -> trainDeparture.getDestination().equals(destination)).toList();
 
   }
 
   /**
-   * Removes train departures from a train departure group that are before a certain time.
+   * Removes train departures from a train departure manager that are before a certain time.
    *
    * @param time a LocalTime object selects the limit for what train departures to remove.
    */
   public void removeTrainDeparturesByTimeBefore(LocalTime time) {
-    trainDepartureGroup.values()
+    departures.values()
             .removeIf(trainDeparture ->
                     trainDeparture.getDestinationTimePlusDelay().isBefore(time));
   }
@@ -137,8 +137,8 @@ public class TrainDepartureGroup {
    *
    * @return a list of train departures by time ascending.
    */
-  public List<TrainDeparture> getTrainDepartureGroupByTimeAscending() {
-    return trainDepartureGroup.values()
+  public List<TrainDeparture> getDepartures() {
+    return departures.values()
             .stream()
             .sorted(Comparator.comparing(TrainDeparture::getDepartureTime))
             .collect(Collectors.toList());
@@ -151,7 +151,7 @@ public class TrainDepartureGroup {
    */
   @Override
   public String toString() {
-    return trainDepartureGroup.values()
+    return departures.values()
             .stream()
             .map(TrainDeparture::toString)
             .collect(Collectors.joining("\n"));
