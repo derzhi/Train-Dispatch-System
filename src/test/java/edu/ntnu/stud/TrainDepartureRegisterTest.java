@@ -15,12 +15,12 @@ class TrainDepartureRegisterTest {
 
     departures.addTrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15),
             "Bergen", "L4", 1, -1);
-    departures.addTrainDeparture(LocalTime.of(12, 30), LocalTime.of(0, 0),
+    departures.addTrainDeparture(LocalTime.of(11, 20), LocalTime.of(0, 5),
             "Trondheim", "B3", 2, -1);
     departures.addTrainDeparture(LocalTime.of(11, 20), LocalTime.of(0, 5),
             "Trondheim", "L3", 3, 2);
-    departures.addTrainDeparture(LocalTime.of(7, 21), LocalTime.of(0, 0),
-            "Kragerø", "L4", 4, 3);
+    departures.addTrainDeparture(LocalTime.of(7, 20), LocalTime.of(0, 0),
+            "Kragerø", "L4", 4, 2);
   }
 
   @AfterEach
@@ -65,9 +65,16 @@ class TrainDepartureRegisterTest {
     }
 
     @Test
+    void addTrainDeparturesByTimeGivesCorrectSize() {
+      departures.addTrainDeparture(LocalTime.of(12, 0), LocalTime.of(0, 0),
+              "Trondheim", "L4", 5, 5);
+      assertEquals(departures.getDepartures().size(), 5);
+    }
+
+    @Test
     void removeTrainDeparturesByTimeBeforeGivesCorrectSize() {
       departures.setTimeOfDay(LocalTime.of(12, 0));
-      assertEquals(departures.getDepartures().size(), 2);
+      assertEquals(departures.getDepartures().size(), 1);
     }
 
     @Test
@@ -105,6 +112,21 @@ class TrainDepartureRegisterTest {
     }
 
     @Test
+    void addTrainDepartureDoesThrowWhenTimeIsBeforeTimeOfDay() {
+      departures.setTimeOfDay(LocalTime.of(12, 0));
+      assertThrows(IllegalArgumentException.class, () -> departures
+              .addTrainDeparture(LocalTime.of(11, 30), LocalTime.of(0, 15),
+                      "Bergen", "L33", 23, 44));
+    }
+
+    @Test
+    void addTrainDeparturesDoesThrowWhenTrainNumberAlreadyExists() {
+      assertThrows(IllegalArgumentException.class, () -> departures
+              .addTrainDeparture(LocalTime.of(22, 0), LocalTime.of(0, 15),
+                      "Hønefoss", "L33", 1, -7));
+    }
+
+    @Test
     void setTimeOfDayDoesThrow() {
       departures.setTimeOfDay(LocalTime.of(16, 0));
       assertThrows(IllegalArgumentException.class, () -> departures.setTimeOfDay(LocalTime.of(12, 0)));
@@ -122,5 +144,16 @@ class TrainDepartureRegisterTest {
       assertThrows(IllegalArgumentException.class, departures2::assertDeparturesNotEmpty);
     }
 
+    @Test
+    void assertAndSetTrackDoesThrow() {
+      assertThrows(IllegalArgumentException.class, () -> departures
+              .assertAndSetTrack(2, 2));
+    }
+
+    @Test
+    void assertAndSetDelayDoesThrow() {
+      assertThrows(IllegalArgumentException.class, () -> departures
+              .assertAndSetDelay(4, LocalTime.of(4, 5)));
+    }
   }
 }
