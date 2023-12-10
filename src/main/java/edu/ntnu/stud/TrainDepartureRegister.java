@@ -92,7 +92,7 @@ public class TrainDepartureRegister {
    *
    * @param time a LocalTime object selects the limit for what train departures to remove.
    */
-  public void removeTrainDeparturesByTimeBefore(LocalTime time) {
+  private void removeTrainDeparturesByTimeBefore(LocalTime time) {
     departures.values()
             .removeIf(trainDeparture ->
                     trainDeparture.getFinalDepartureTime().isBefore(time));
@@ -107,6 +107,7 @@ public class TrainDepartureRegister {
    */
   public void setTimeOfDay(LocalTime newTime) throws IllegalArgumentException {
     assertTimeOfDayIsAfterCurrentTimeOfDay(newTime);
+    removeTrainDeparturesByTimeBefore(newTime);
     this.timeOfDay = newTime;
   }
 
@@ -131,8 +132,9 @@ public class TrainDepartureRegister {
     return departures
             .values()
             .stream()
-            .anyMatch(trainDeparture -> trainDeparture.getFinalDepartureTime().equals(finalDepartureTime)
-                    && trainDeparture.getLine().equals(line));
+            .anyMatch(trainDeparture ->
+                    trainDeparture.getFinalDepartureTime().equals(finalDepartureTime)
+                            && trainDeparture.getLine().equals(line));
   }
 
   /**
@@ -176,11 +178,13 @@ public class TrainDepartureRegister {
    * Unless track is unassigned (-1).
    *
    * @param finalDepartureTime a LocalTime object adjusted departure time accounting for any delays
-   * @param track              the track the train is supposed to arrive at, -1 means that the train is unassigned
-   * @throws IllegalArgumentException if there exists a train departure with the same departure time and track.
-   *                                  Unless the track is unassigned (-1).
+   * @param track              the track the train is supposed to arrive at,
+   *                           -1 means that the train is unassigned
+   * @throws IllegalArgumentException if there exists a train departure with the same
+   *                                  departure time and track. Unless the track is unassigned (-1).
    */
-  private void assertUniqueTrackDeparture(LocalTime finalDepartureTime, int track) throws IllegalArgumentException {
+  private void assertUniqueTrackDeparture(LocalTime finalDepartureTime, int track)
+          throws IllegalArgumentException {
     if (!existsDepartureWithTimeAndLine(finalDepartureTime, track)) {
       throw new IllegalArgumentException("A train departure with this departure time and track "
               + "already exists");
@@ -220,18 +224,22 @@ public class TrainDepartureRegister {
    * @param newTimeOfDay the time to be compared against the current time of day.
    * @throws IllegalArgumentException if the new time of day is before the current time of day.
    */
-  private void assertTimeOfDayIsAfterCurrentTimeOfDay(LocalTime newTimeOfDay) {
+  private void assertTimeOfDayIsAfterCurrentTimeOfDay(LocalTime newTimeOfDay)
+          throws IllegalArgumentException {
     if (newTimeOfDay.isBefore(timeOfDay)) {
-      throw new IllegalArgumentException("New time " + newTimeOfDay + " must be after current time of day " + timeOfDay);
+      throw new IllegalArgumentException("New time " + newTimeOfDay
+              + " must be after current time of day " + timeOfDay);
     }
   }
 
   /**
-   * Asserts the uniqueness of a departure schedule in departures based on its time, line, and track.
+   * Asserts the uniqueness of a departure schedule in departures
+   * based on its time, line, and track.
    *
    * @param departureTime a LocalTime object adjusted departure time accounting for any delays
    * @param line          a String object of a train departure line.
-   * @param track         an integer of the track the train is supposed to arrive at, -1 means that the train is unassigned
+   * @param track         an integer of the track the train is supposed to arrive at,
+   *                      -1 means that the train is unassigned
    */
   public void assertUniqueDepartureScheduling(LocalTime departureTime, String line, int track) {
     assertUniqueLineDeparture(departureTime, line);
