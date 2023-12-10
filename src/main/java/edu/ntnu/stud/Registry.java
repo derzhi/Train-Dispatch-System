@@ -11,9 +11,10 @@ import java.util.stream.Collectors;
  * This class contains several methods for manipulating a group and validation.
  *
  * @author Adrian Aleksander Buczek
+ * @version 0.3
  * @since 0.2
  */
-public class TrainDepartureRegister {
+public class Registry {
   private final HashMap<Integer, TrainDeparture> departures;
   private LocalTime timeOfDay;
 
@@ -21,7 +22,7 @@ public class TrainDepartureRegister {
    * Constructs a new TrainDepartureRegister object.
    * Upon initialization it sets the time of day to 00:00 and creates a new HashMap.
    */
-  public TrainDepartureRegister() {
+  public Registry() {
     this.timeOfDay = LocalTime.of(0, 0);
     this.departures = new HashMap<>();
   }

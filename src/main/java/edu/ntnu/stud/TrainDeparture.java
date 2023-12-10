@@ -68,7 +68,7 @@ import java.time.LocalTime;
  * </ul>
  *
  * @author Adrian Aleksander Buczek
- * @version 0.1
+ * @version 0.3
  * @since 0.1
  */
 public class TrainDeparture {

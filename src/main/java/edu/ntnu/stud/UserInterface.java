@@ -13,7 +13,7 @@ import java.util.Scanner;
  */
 public class UserInterface {
   private static final Scanner scanner = new Scanner(System.in);
-  private TrainDepartureRegister departures;
+  private Registry departures;
 
   /**
    * Runs the main menu of the terminal. Prints the main menu and interprets user input
@@ -67,7 +67,7 @@ public class UserInterface {
    * Initializes the application with a registry with some train departures.
    */
   public void init() {
-    departures = new TrainDepartureRegister();
+    departures = new Registry();
 
     departures.addTrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "A4", 1, 5);
     departures.addTrainDeparture(LocalTime.of(12, 30), LocalTime.of(0, 0), "Trondheim", "A4", 5, 5);

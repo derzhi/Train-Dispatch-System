@@ -6,12 +6,12 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TrainDepartureRegisterTest {
-  private TrainDepartureRegister departures;
+class RegistryTest {
+  private Registry departures;
 
   @BeforeEach
   void setUp() {
-    departures = new TrainDepartureRegister();
+    departures = new Registry();
 
     departures.addTrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15),
             "Bergen", "L4", 1, -1);
@@ -30,7 +30,7 @@ class TrainDepartureRegisterTest {
 
   @Nested
   @DisplayName("Positive tests for the TrainDepartureRegister class")
-  public class PositiveTrainDepartureRegisterTests {
+  public class PositiveRegistryTests {
     @Test
     void getTimeOfDayEqualsDefaultTimeOfDay() {
       assertEquals(departures.getTimeOfDay(),
@@ -97,7 +97,7 @@ class TrainDepartureRegisterTest {
 
   @Nested
   @DisplayName("Negative tests for the TrainDepartureRegister class")
-  public class NegativeTrainDepartureRegisterTests {
+  public class NegativeRegistryTests {
 
     @Test
     void getTrainDepartureByTrainNumberDoesThrow() {
@@ -140,7 +140,7 @@ class TrainDepartureRegisterTest {
 
     @Test
     void assertDeparturesNotEmptyDoesThrow() {
-      TrainDepartureRegister departures2 = new TrainDepartureRegister();
+      Registry departures2 = new Registry();
       assertThrows(IllegalArgumentException.class, departures2::assertDeparturesNotEmpty);
     }
 
