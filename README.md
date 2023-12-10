@@ -1,4 +1,4 @@
-# Portfolio project IDATA1003 - 2023
+# Portfolio project IDATT1003 - 2023
 
 STUDENT NAME = Adrian Aleksander Buczek<br>
 STUDENT ID = 111798
