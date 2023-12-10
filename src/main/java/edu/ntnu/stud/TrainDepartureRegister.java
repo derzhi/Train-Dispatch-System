@@ -44,7 +44,7 @@ public class TrainDepartureRegister {
     return departures
             .values()
             .stream()
-            .sorted(Comparator.comparing(TrainDeparture::getDepartureTime))
+            .sorted(Comparator.comparing(TrainDeparture::getFinalDepartureTime))
             .collect(Collectors.toList());
   }
 
@@ -77,14 +77,38 @@ public class TrainDepartureRegister {
   }
 
   /**
-   * Adds a train departure to the departures.
+   * Adds a train departure to the departures. The departure is added if the departure time
+   * is not before the time of day, if the departure time and line is unique,
+   * and if the train number is unique.
    *
-   * @param trainDeparture the train departure to add.
-   * @throws IllegalArgumentException if train number is not unique.
+   * @param departureTime a LocalTime object of a trains departure time.
+   * @param delay         a LocalTime object of a trains delay.
+   * @param destination   a String object of a trains destination.
+   * @param line          a String object of a trains line.
+   * @param trainNumber   an integer of a trains train number.
+   * @param track         an integer of the track the train is supposed to arrive at, -1 means that
+   *                      the train is unassigned.
+   * @throws IllegalArgumentException if final departure time is before time of day, if there exists
+   *                                  a train departure with the same departure time and line/track,
+   *                                  or if a train departure with the same train number already
+   *                                  exists.
    */
-  public void addTrainDeparture(TrainDeparture trainDeparture) throws IllegalArgumentException {
-    assertTrainNumberDoesNotExist(trainDeparture.getTrainNumber());
-    departures.put(trainDeparture.getTrainNumber(), trainDeparture);
+  public void addTrainDeparture(LocalTime departureTime, LocalTime delay, String destination,
+                                String line, int trainNumber, int track)
+          throws IllegalArgumentException {
+
+    LocalTime finalDepartureTime = departureTime
+            .plusHours(delay.getHour()).plusMinutes(delay.getMinute());
+
+    assertDepartureTimeIsNotBeforeTimeOfDay(finalDepartureTime);
+    assertUniqueDepartureScheduling(finalDepartureTime, line, track);
+    assertTrainNumberDoesNotExist(trainNumber);
+
+    TrainDeparture newTrainDeparture = new TrainDeparture(
+            departureTime, delay, destination, line, trainNumber, track
+    );
+
+    departures.put(trainNumber, newTrainDeparture);
   }
 
   /**
@@ -247,15 +271,36 @@ public class TrainDepartureRegister {
   }
 
   /**
-   * Asserts that departures is not empty.
+   * Asserts that a track is not occupied by another train departure at the same time,
+   * unless the track is unassigned (-1). After the assertion is made, the track is set.
    *
-   * @throws IllegalArgumentException if departures is empty.
+   * @param trainNumber the train number of the train departure to be updated.
+   * @param track       the track the train is supposed to arrive at,
+   *                    -1 means that the train is unassigned
+   * @throws IllegalArgumentException if the track is occupied by another train departure
+   *                                  at the same time.
    */
-  public void assertDeparturesNotEmpty() throws IllegalArgumentException {
-    if (departures.isEmpty()) {
-      throw new IllegalArgumentException("Option is not available because "
-              + "no train departures exist");
-    }
+  public void assertAndSetTrack(int trainNumber, int track) throws IllegalArgumentException {
+    TrainDeparture selected = getTrainDepartureByTrainNumber(trainNumber);
+    assertTrackNotOccupied(selected.getFinalDepartureTime(), track);
+    selected.setTrack(track);
+  }
+
+  /**
+   * Asserts that that the new time will not collide with any other train that has
+   * the same line nad the same track. After the assertion is made, the delay is set.
+   *
+   * @param trainNumber the train number of the train departure to be updated.
+   * @param delay       the delay to be added to the departure time.
+   */
+  public void assertAndSetDelay(int trainNumber, LocalTime delay) {
+    TrainDeparture selected = getTrainDepartureByTrainNumber(trainNumber);
+
+    LocalTime finalDepartureTime = selected
+            .getDepartureTime().plusHours(delay.getHour()).plusMinutes(delay.getMinute());
+    assertUniqueDepartureScheduling(finalDepartureTime, selected.getLine(), selected.getTrack());
+
+    selected.setDelay(delay);
   }
 
   /**
@@ -264,10 +309,22 @@ public class TrainDepartureRegister {
    * @param departureTime a LocalTime object of a trains departure time.
    * @throws IllegalArgumentException if departure time is before time of day.
    */
-  public void assertDepartureTimeIsNotBeforeTimeOfDay(LocalTime departureTime)
+  private void assertDepartureTimeIsNotBeforeTimeOfDay(LocalTime departureTime)
           throws IllegalArgumentException {
     if (departureTime.isBefore(timeOfDay)) {
       throw new IllegalArgumentException("Departure time must not be after time of day");
+    }
+  }
+
+  /**
+   * Asserts that departures is not empty.
+   *
+   * @throws IllegalArgumentException if departures is empty.
+   */
+  public void assertDeparturesNotEmpty() throws IllegalArgumentException {
+    if (departures.isEmpty()) {
+      throw new IllegalArgumentException("Option is not available because "
+              + "no train departures exist");
     }
   }
 
