@@ -1,32 +1,82 @@
 # Portfolio project IDATA1003 - 2023
 
-STUDENT NAME = Adrian Aleksander Buczek
+STUDENT NAME = Adrian Aleksander Buczek<br>
 STUDENT ID = 111798
-
-
 
 ## Project description
 
-[//]: # (TODO: Write a short description of your project/product here.)
+A Java-based train dispatch application for managing train departures in a terminal.
+The application is set to represent a train station within a 24-hour
+operational window.
+
+Key functionalities of the application include:
+
+<ul>
+    <li>Displaying departures</li>
+    <li>Adding new departures</li>
+    <li>Setting the track of a departure</li>
+    <li>Setting the delay of a departure</li>
+    <li>Searching for departures by a destination</li>
+    <li>Searching for a departure by a train number</li>
+    <li>Updating the time of day</li>
+</ul>
 
 ## Project structure
 
-[//]: # (TODO: Describe the structure of your project here. How have you used packages in your structure. Where are all sourcefiles stored. Where are all JUnit-test classes stored. etc.)
+### Source Code
+
+The source code of the application is housed within the `src` directory, which is divided into two main subdirectories:
+
+- `main/java/edu/ntnu/stud`: This directory contains the Java application's core source files.
+    - `App.java`: Responsible for launching the application.
+    - `Registry.java`: Manages the data and operations related to a registry of train departures.
+    - `TrainDeparture.java`: Represents a train departure with relevant details.
+    - `UserInterface.java`: Handles the user interaction for managing train departures.
+
+### Tests
+
+The tests for the application are organized within the `src` directory under `test`:
+
+- `test/java/edu/ntnu/stud`: Contains the JUnit-test classes for the application.
+    - `RegistryTest.java`: Includes tests for the Registry class.
+    - `TrainDepartureTest.java`: Contains tests for the TrainDeparture class.
 
 ## Link to repository
 
-[//]: # (TODO: Include a link to your repository here.)
+Link to repository: https://github.com/derzhi/Train-Dispatch-System
 
 ## How to run the project
 
-[//]: # (TODO: Describe how to run your project here. What is the main class? What is the main method?
-What is the input and output of the program? What is the expected behaviour of the program?)
+### Prerequisites
+
+- Java Development Kit (JDK) 1.8 or above must be installed.
+- Apache Maven must be installed.
+
+### Running the Application
+
+1. Open a terminal or command prompt.
+2. Change the directory to the project root where the `pom.xml` file is located.
+    ```sh
+    cd path_to_project_folder
+    ```
+3. Use Maven to compile and run the application with the following commands:
+    ```sh
+    mvn clean install
+    mvn exec:java -D"exec.mainClass"="edu.ntnu.stud.App"
+    ```
 
 ## How to run the tests
 
-[//]: # (TODO: Describe how to run the tests here.)
+This project uses Maven to manage the running of tests, which ensures that any developer can easily run the tests in a
+consistent environment. To run the tests for the project, you'll need to have Maven installed and configured on your
+system.
 
-## References
+Follow these steps to execute the tests:
 
-[//]: # (TODO: Include references here, if any. For example, if you have used code from the course book, include a reference to the chapter.
-Or if you have used code from a website or other source, include a link to the source.)
+1. Open a terminal or command prompt.
+2. Navigate to the root directory of the project where the `pom.xml` file is located.
+3. Run the following command:
+
+```bash
+mvn test
+```
