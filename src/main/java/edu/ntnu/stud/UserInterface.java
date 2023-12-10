@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class UserInterface {
   private static final Scanner scanner = new Scanner(System.in);
-  private TrainDepartureManager departures;
+  private TrainDepartureRegister departures;
 
   /**
    * Runs the main menu of the terminal. Prints the main menu and interprets user input
@@ -61,7 +61,7 @@ public class UserInterface {
    * test.
    */
   public void init() {
-    departures = new TrainDepartureManager();
+    departures = new TrainDepartureRegister();
 
     TrainDeparture td1 = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "A4", 1, 5);
     TrainDeparture td2 = new TrainDeparture(LocalTime.of(12, 30), LocalTime.of(0, 0), "Trondheim", "A4", 5, 5);
@@ -129,7 +129,7 @@ public class UserInterface {
 
         LocalTime finalDepartureTime = departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
 
-        departures.assertDepartureTimeIsNotAfterTimeOfDay(finalDepartureTime);
+        departures.assertDepartureTimeIsNotBeforeTimeOfDay(finalDepartureTime);
         departures.assertUniqueDepartureScheduling(finalDepartureTime, line, track);
 
         TrainDeparture newTrainDeparture = new TrainDeparture(departureTime, delay, destination,
@@ -196,7 +196,7 @@ public class UserInterface {
     while (true) {
       try {
         String destination = getUserInputString("Type in destination");
-        departures.getTrainDepartureByDestination(destination).forEach(System.out::println);
+        departures.getDeparturesByDestination(destination).forEach(System.out::println);
         break;
       } catch (Exception e) {
         System.out.println(e.getMessage());
