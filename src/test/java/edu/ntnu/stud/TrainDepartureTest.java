@@ -1,9 +1,6 @@
 package edu.ntnu.stud;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalTime;
 
@@ -20,6 +17,11 @@ public class TrainDepartureTest {
     @BeforeEach
     public void setUp() {
       trainDeparture = new TrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "L4", 3123, -1);
+    }
+
+    @AfterEach
+    public void tearDown() {
+      trainDeparture = null;
     }
 
     @Test
