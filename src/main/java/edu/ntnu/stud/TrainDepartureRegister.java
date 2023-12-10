@@ -165,7 +165,7 @@ public class TrainDepartureRegister {
    * @throws IllegalArgumentException if there exists a train departure with
    *                                  the same departure time and line.
    */
-  private void assertUniqueLineDeparture(LocalTime finalDepartureTime, String line)
+  private void assertLineNotOccupied(LocalTime finalDepartureTime, String line)
           throws IllegalArgumentException {
     if (existsDepartureWithTimeAndLine(finalDepartureTime, line)) {
       throw new IllegalArgumentException("A train departure with this departure time and line "
@@ -183,7 +183,7 @@ public class TrainDepartureRegister {
    * @throws IllegalArgumentException if there exists a train departure with the same
    *                                  departure time and track. Unless the track is unassigned (-1).
    */
-  private void assertUniqueTrackDeparture(LocalTime finalDepartureTime, int track)
+  private void assertTrackNotOccupied(LocalTime finalDepartureTime, int track)
           throws IllegalArgumentException {
     if (!existsDepartureWithTimeAndLine(finalDepartureTime, track)) {
       throw new IllegalArgumentException("A train departure with this departure time and track "
@@ -242,8 +242,8 @@ public class TrainDepartureRegister {
    *                      -1 means that the train is unassigned
    */
   public void assertUniqueDepartureScheduling(LocalTime departureTime, String line, int track) {
-    assertUniqueLineDeparture(departureTime, line);
-    assertUniqueTrackDeparture(departureTime, track);
+    assertLineNotOccupied(departureTime, line);
+    assertTrackNotOccupied(departureTime, track);
   }
 
   /**
