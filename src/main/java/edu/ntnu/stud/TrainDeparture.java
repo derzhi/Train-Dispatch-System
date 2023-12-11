@@ -68,8 +68,8 @@ import java.time.LocalTime;
  * </ul>
  *
  * @author Adrian Aleksander Buczek
- * @version 0.3
- * @since 0.1
+ * @version v1.0.0-release
+ * @since v0.1.0-alpha
  */
 public class TrainDeparture {
   private final LocalTime departureTime;
@@ -102,7 +102,7 @@ public class TrainDeparture {
     assertStringNotBlank(destination);
     assertStringNotBlank(line);
     assertPositiveIntegerParameter(trainNumber);
-    validatePositiveIntegerOrNegativeOne(track);
+    assertPositiveIntegerOrNegativeOne(track);
 
     this.departureTime = departureTime;
     this.delay = delay;
@@ -111,6 +111,7 @@ public class TrainDeparture {
     this.trainNumber = trainNumber;
     this.track = track;
   }
+  
 
   /**
    * Returns the LocalTime object representing the departure time of a train.
@@ -184,7 +185,7 @@ public class TrainDeparture {
    * @throws IllegalArgumentException if the input parameter is not a positive integer or -1.
    */
   public void setTrack(int track) throws IllegalArgumentException {
-    validatePositiveIntegerOrNegativeOne(track);
+    assertPositiveIntegerOrNegativeOne(track);
     this.track = track;
   }
 
@@ -230,7 +231,7 @@ public class TrainDeparture {
    * @throws IllegalArgumentException if the integer is not bigger than zero
    *                                  or equal to negative one.
    */
-  private void validatePositiveIntegerOrNegativeOne(int parameter) throws IllegalArgumentException {
+  private void assertPositiveIntegerOrNegativeOne(int parameter) throws IllegalArgumentException {
     if (parameter < 1 && parameter != -1) {
       throw new IllegalArgumentException("The integer for the parameter was not over 0 or -1, "
               + "please retry.");
