@@ -325,7 +325,7 @@ public class Registry {
   public void assertDeparturesNotEmpty() throws IllegalArgumentException {
     if (departures.isEmpty()) {
       throw new IllegalArgumentException("Option is not available because "
-              + "no train departures exist");
+              + "no train departures exist. Please add a train departure to use this option.");
     }
   }
 
