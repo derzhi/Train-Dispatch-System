@@ -8,8 +8,8 @@ import java.util.Scanner;
  * It is responsible for printing the main menu and interpreting user input.
  *
  * @author Adrian Aleksander Buczek
- * @version 0.3
- * @since 0.3
+ * @version v1.0.0-release
+ * @since v0.3.0-alpha
  */
 public class UserInterface {
   private static final Scanner scanner = new Scanner(System.in);

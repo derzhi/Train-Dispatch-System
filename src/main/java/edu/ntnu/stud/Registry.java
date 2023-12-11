@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
  * This class contains several methods for manipulating a group and validation.
  *
  * @author Adrian Aleksander Buczek
- * @version 0.3
- * @since 0.2
+ * @version v1.0.0-release
+ * @since v0.2.0-alpha
  */
 public class Registry {
   private final HashMap<Integer, TrainDeparture> departures;

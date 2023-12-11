@@ -5,8 +5,8 @@ package edu.ntnu.stud;
  * It is responsible for launching the user interface.
  *
  * @author Adrian Aleksander Buczek
- * @version 0.3
- * @since 0.1
+ * @version v1.0.0-release
+ * @since v0.3.0-alpha
  */
 public class App {
   /**
