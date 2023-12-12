@@ -72,7 +72,7 @@ public class UserInterface {
     departures.addTrainDeparture(LocalTime.of(15, 30), LocalTime.of(0, 15), "Bergen", "A4", 1, 5);
     departures.addTrainDeparture(LocalTime.of(12, 30), LocalTime.of(0, 0), "Trondheim", "A4", 5, 5);
     departures.addTrainDeparture(LocalTime.of(11, 20), LocalTime.of(0, 5), "Trondheim", "L4", 3, 3);
-    departures.addTrainDeparture(LocalTime.of(7, 21), LocalTime.of(0, 0), "Kragerø", "A4", 21, -1);
+    departures.addTrainDeparture(LocalTime.of(7, 21), LocalTime.of(0, 0), "Asker", "A4", 21, -1);
   }
 
   /**
